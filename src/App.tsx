@@ -8,7 +8,7 @@ import OrdersTracker from './components/OrdersTracker';
 import WalletTab from './components/WalletTab';
 import AdminPanel from './components/AdminPanel';
 import Login from './components/Login';
-import { TrendingUp, Coins, Activity, ShieldCheck, Mail, Bell, Check, X } from 'lucide-react';
+import { TrendingUp, Coins, Activity, ShieldCheck, Mail, Bell, Check, X, Printer } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
@@ -527,13 +527,39 @@ export default function App() {
       <AnimatePresence>
         {activeEmailAlert && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 50 }}
+            initial={{ opacity: 0, scale: 0.95, y: 30, x: 0 }}
+            animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+            exit={{ opacity: 0, scale: 0.95, x: 120, y: 15 }}
             transition={{ type: "spring", damping: 25, stiffness: 350 }}
             className="fixed bottom-6 right-6 z-50 w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden shadow-indigo-100 font-sans"
             id="simulated-email-alert-box"
           >
+            {/* Print-specific style overrides to print only the alert box component fullscreen */}
+            <style dangerouslySetInnerHTML={{ __html: `
+              @media print {
+                body > div {
+                  display: none !important;
+                }
+                #simulated-email-alert-box {
+                  display: block !important;
+                  position: fixed !important;
+                  left: 0 !important;
+                  top: 0 !important;
+                  width: 100% !important;
+                  height: auto !important;
+                  max-width: none !important;
+                  box-shadow: none !important;
+                  border: none !important;
+                  z-index: 99999 !important;
+                  background: white !important;
+                  color: black !important;
+                }
+                #close-email-btn, #understand-notif-btn, #print-pdf-btn {
+                  display: none !important;
+                }
+              }
+            ` }} />
+
             {/* Header / Subject line */}
             <div className="bg-slate-900 text-white p-4 flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -621,7 +647,17 @@ export default function App() {
                 <span>Delivered securely. Webhook return is code 200 (Completed on-time).</span>
               </div>
 
-              <div className="border-t border-slate-150 pt-3 flex items-center justify-end">
+              <div className="border-t border-slate-150 pt-3 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl text-[10px] uppercase tracking-wider transition-colors cursor-pointer border border-slate-200 shadow-sm"
+                  id="print-pdf-btn"
+                  title="Print this simulated email alert report as PDF"
+                >
+                  <Printer className="h-3.5 w-3.5 text-slate-500" />
+                  <span>Print as PDF</span>
+                </button>
                 <button
                   type="button"
                   onClick={() => setActiveEmailAlert(null)}
