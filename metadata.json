@@ -1,0 +1,6 @@
+{
+  "name": "SMM Panel and E-Commerce Hub",
+  "description": "An all-in-one organic social media marketing growth provider panel and creative e-commerce template bundle marketplace with real-time administration pipeline toggle.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
